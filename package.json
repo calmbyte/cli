@@ -1,0 +1,31 @@
+{
+  "name": "@calmbyte/cli",
+  "version": "0.0.2",
+  "main": "index.mjs",
+  "type": "module",
+  "bin": {
+    "cb": "./index.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calmbyte/cli.git"
+  },
+  "keywords": [
+    "cli",
+    "react"
+  ],
+  "author": "dmitri.eryomin@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calmbyte/cli/issues"
+  },
+  "homepage": "https://github.com/calmbyte/cli#readme",
+  "engines": {
+    "node": ">=18.18.0",
+    "npm": ">=9"
+  },
+  "description": ""
+}
