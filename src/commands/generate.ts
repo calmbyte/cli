@@ -2,27 +2,32 @@ import path from 'path';
 import fs from 'fs/promises';
 import { Command, InvalidArgumentError } from 'commander';
 
+import { parseExtension } from '../lib/extension-parser';
 import {
   generateComponent,
   ComponentType,
-} from '../templates/components/react-component.mjs';
-import { parseExtension } from '../lib/extension-parser.mjs';
+} from '../templates/components/react-component';
 
-function parseType(value) {
+function parseType(value: string) {
   if (
     value !== ComponentType.Declaration &&
     value !== ComponentType.Expression
   ) {
     throw new InvalidArgumentError(
-      `\nAvailable types: '${ComponentType.Declaration}' or '${ComponentType.Expression}'`
+      `\nAvailable types: '${ComponentType.Declaration}' or '${ComponentType.Expression}'`,
     );
   }
   return value;
 }
 
 async function generateAction(
-  componentName,
-  { extension, path: relativePath, type, dry }
+  componentName: string,
+  {
+    extension,
+    path: relativePath,
+    type,
+    dry,
+  }: { type: ComponentType; extension: string; path: string; dry: boolean },
 ) {
   if (dry) {
     console.log(`+ ${relativePath}${componentName}.${extension}`.gray);
@@ -34,10 +39,10 @@ async function generateAction(
   await fs.writeFile(
     `${pathLike}.${extension}`,
     generateComponent(type, componentName),
-    'utf-8'
+    'utf-8',
   );
 
-  console.log(`+ ${relativePath}/${componentName}.${extension}`.green);
+  console.log(`+ ${path.join(relativePath, componentName)}.${extension}`.green);
 }
 
 export const generate = new Command('generate')
@@ -52,7 +57,7 @@ generate
     '-ext, --extension <ext>',
     `File extension ts|js|tsx|jsx`,
     parseExtension,
-    'tsx'
+    'tsx',
   )
   .option('-p, --path <path>', 'Custom path for component', './')
   .option('-d, --dry', 'Dry run')
@@ -60,7 +65,7 @@ generate
     '-t, --type <type>',
     'Component as function declaration or function expression',
     parseType,
-    ComponentType.Declaration
+    ComponentType.Declaration,
   )
   .description('Create component')
   .configureOutput({

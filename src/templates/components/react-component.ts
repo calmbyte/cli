@@ -1,12 +1,12 @@
 const functionDeclaration = (
-  componentName
+  componentName: string,
 ) => `export function ${componentName}() {
     return <span>Hello from ${componentName}</span>;
   }
 `;
 
 const functionExpression = (
-  componentName
+  componentName: string,
 ) => `export const ${componentName} = () => {
   return <span>Hello from ${componentName}</span>;
 }
@@ -16,18 +16,18 @@ const functionExpression = (
  *
  * @param {string} type
  */
-export function generateComponent(type, componentName) {
+export function generateComponent(type: ComponentType, componentName: string) {
   switch (type) {
     case ComponentType.Declaration:
       return functionDeclaration(componentName);
     case ComponentType.Expression:
       return functionExpression(componentName);
     default:
-      break;
+      return '';
   }
 }
 
-export const ComponentType = {
-  Declaration: 'dcl',
-  Expression: 'expr',
-};
+export enum ComponentType {
+  Declaration = 'dcl',
+  Expression = 'expr',
+}

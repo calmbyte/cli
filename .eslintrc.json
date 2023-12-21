@@ -1,0 +1,31 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "plugins": ["@typescript-eslint", "perfectionist", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "perfectionist/sort-imports": [
+      "error",
+      {
+        "order": "asc",
+        "type": "line-length",
+        "newlines-between": "always",
+        "groups": [
+          ["builtin", "external"],
+          "external-type",
+          "internal",
+          ["parent", "sibling"],
+          ["parent-type", "sibling-type", "index-type"]
+        ]
+      }
+    ]
+  },
+  "ignorePatterns": ["dist", "node_modules"]
+}

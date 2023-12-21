@@ -3,7 +3,7 @@
 import 'colors';
 import { Command } from 'commander';
 
-import { commands } from './src/cli.mjs';
+import { commands } from './cli';
 
 const cli = new Command()
   .name('cb')
