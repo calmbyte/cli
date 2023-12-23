@@ -1,0 +1,3 @@
+export const <% parsedComponentName %> = () => {
+  return <p>Hello from <% componentName %></p>;
+};

@@ -1,26 +1,11 @@
 import path from 'path';
 import fs from 'fs/promises';
-import { Command, InvalidArgumentError } from 'commander';
+import { Command } from 'commander';
 
-import { parseExtension } from '../lib/extension-parser';
-import {
-  generateComponent,
-  ComponentType,
-} from '../templates/components/react-component';
+import { parseExtension, parseType } from '../../lib/args-parser';
+import { generateComponent, ComponentType } from './services/component';
 
-function parseType(value: string) {
-  if (
-    value !== ComponentType.Declaration &&
-    value !== ComponentType.Expression
-  ) {
-    throw new InvalidArgumentError(
-      `\nAvailable types: '${ComponentType.Declaration}' or '${ComponentType.Expression}'`,
-    );
-  }
-  return value;
-}
-
-async function generateAction(
+async function generateComponentAction(
   componentName: string,
   {
     extension,
@@ -34,13 +19,14 @@ async function generateAction(
     return;
   }
 
-  const pathLike = path.join(process.cwd(), relativePath, componentName);
+  const pathLike = `${path.join(
+    process.cwd(),
+    relativePath,
+    componentName,
+  )}.${extension}`;
 
-  await fs.writeFile(
-    `${pathLike}.${extension}`,
-    generateComponent(type, componentName),
-    'utf-8',
-  );
+  const component = await generateComponent(type, componentName);
+  await fs.writeFile(pathLike, component, 'utf-8');
 
   console.log(`+ ${path.join(relativePath, componentName)}.${extension}`.green);
 }
@@ -51,6 +37,7 @@ export const generate = new Command('generate')
 
 generate
   .command('component')
+  .description('Create ReactJS component')
   .alias('c')
   .argument('<name>', `Component name: e.g. ${'Button'.green}`)
   .option(
@@ -67,8 +54,7 @@ generate
     parseType,
     ComponentType.Declaration,
   )
-  .description('Create component')
   .configureOutput({
     writeErr: (str) => process.stdout.write(`${str}`.red),
   })
-  .action(generateAction);
+  .action(generateComponentAction);
