@@ -1,3 +1,3 @@
-import { generate } from './commands';
+import { GenerateCmd } from './commands';
 
-export const commands = [generate];
+export const commands = [new GenerateCmd()];

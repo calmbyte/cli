@@ -7,7 +7,7 @@ import { commands } from './cli';
 
 const cli = new Command()
   .name('cb')
-  .version('0.0.1')
+  .version('0.0.8')
   .description('@calmbyte/cli for generating React components');
 
 commands.forEach((command) => {
